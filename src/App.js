@@ -6,8 +6,10 @@ function App() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
 
+  const API = "https://todo-backend-7484.onrender.com";
+
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/tasks")
+    axios.get(`${API}/tasks`)
       .then(res => setTasks(res.data))
       .catch(err => console.log(err));
   }, []);
@@ -15,7 +17,7 @@ function App() {
   const addTask = () => {
     if (!task.trim()) return;
 
-    axios.post("http://127.0.0.1:5000/tasks", {
+    axios.post(`${API}/tasks`, {
       text: task,
       completed: false
     })
@@ -27,7 +29,7 @@ function App() {
   };
 
   const toggleTask = (t) => {
-    axios.put(`http://127.0.0.1:5000/tasks/${t._id}`, {
+    axios.put(`${API}/tasks/${t._id}`, {
       completed: !t.completed
     })
     .then(res => {
@@ -37,7 +39,7 @@ function App() {
   };
 
   const deleteTask = (id) => {
-    axios.delete(`http://127.0.0.1:5000/tasks/${id}`)
+    axios.delete(`${API}/tasks/${id}`)
       .then(() => setTasks(tasks.filter(t => t._id !== id)))
       .catch(err => console.log(err));
   };
@@ -75,4 +77,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
